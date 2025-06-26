@@ -139,6 +139,12 @@
       "relation": "oneToMany",
       "target": "api::accessibility-feature.accessibility-feature",
       "mappedBy": "event"
+    },
+    "ticket": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::ticket.ticket",
+      "mappedBy": "event"
     }
   }
 }

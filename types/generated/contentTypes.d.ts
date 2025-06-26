@@ -399,6 +399,7 @@ export interface ApiAccessibilityFeatureAccessibilityFeature
     location: Schema.Attribute.Relation<'manyToOne', 'api::location.location'>;
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    ticket: Schema.Attribute.Relation<'manyToOne', 'api::ticket.ticket'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -429,6 +430,7 @@ export interface ApiCompanionPersonCompanionPerson
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     surname: Schema.Attribute.String;
+    ticket: Schema.Attribute.Relation<'oneToOne', 'api::ticket.ticket'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -666,6 +668,7 @@ export interface ApiNameName extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
+    ticket: Schema.Attribute.Relation<'oneToOne', 'api::ticket.ticket'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -707,6 +710,48 @@ export interface ApiNeedForAccessibilityNeedForAccessibility
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTicketTicket extends Struct.CollectionTypeSchema {
+  collectionName: 'tickets';
+  info: {
+    displayName: 'Ticket';
+    pluralName: 'tickets';
+    singularName: 'ticket';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    accessibility_features: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::accessibility-feature.accessibility-feature'
+    >;
+    companion_person: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::companion-person.companion-person'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    event: Schema.Attribute.Relation<'oneToOne', 'api::name.name'>;
+    format: Schema.Attribute.Enumeration<['physical', 'digita;']>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ticket.ticket'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    price: Schema.Attribute.Decimal;
+    publishedAt: Schema.Attribute.DateTime;
+    refundPolicy: Schema.Attribute.String;
+    seat: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    zone: Schema.Attribute.String;
   };
 }
 
@@ -1246,6 +1291,7 @@ declare module '@strapi/strapi' {
       'api::location.location': ApiLocationLocation;
       'api::name.name': ApiNameName;
       'api::need-for-accessibility.need-for-accessibility': ApiNeedForAccessibilityNeedForAccessibility;
+      'api::ticket.ticket': ApiTicketTicket;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

@@ -27,6 +27,12 @@
       "relation": "manyToOne",
       "target": "api::location.location",
       "inversedBy": "accessibility_features"
+    },
+    "ticket": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::ticket.ticket",
+      "inversedBy": "accessibility_features"
     }
   }
 }
